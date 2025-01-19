@@ -1,21 +1,41 @@
 import cv2
 import os
 
-cap = cv2.VideoCapture('...')
+def extract_frames_from_video(video_path, output_dir, frame_interval=30):
+    """
+    Trích xuất frame từ video.
 
-#tạo thư mục
+    Args:
+        video_path (str): Đường dẫn tới video cần xử lý.
+        output_dir (str): Thư mục lưu frame.
+        frame_interval (int): Số frame bỏ qua trước khi lưu (mặc định: 30 ~ 1s nếu video 30fps).
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    cap = cv2.VideoCapture(video_path)
+    count = 0
+    frame_count = 0
+    
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
 
-frame_count = 0
+        # Lưu frame sau mỗi frame_interval frame
+        if count % frame_interval == 0:
+            frame_path = os.path.join(output_dir, f"frame_{frame_count:04d}.jpg")
+            cv2.imwrite(frame_path, frame)
+            print(f"Lưu frame: {frame_path}")
+            frame_count += 1
 
-while cap.isOpened():
-    ret, frame = cap.read()
-    if not ret:
-        print("Deo access dc")
-        break
+        count += 1
 
-    #lưu frame bằng ảnh
-    cv2.imwrite(f'frames/frame_{frame_count:04d}.jpg',  frame)
-    frame_count+=1
+    cap.release()
+    print("Hoàn thành trích xuất frame.")
 
-cap.release()
-print(f'Total frames extracted: {frame_count}')
+# Ví dụ chạy script
+if __name__ == "__main__":
+    video_path = "./data/data1.mp4"  # Đường dẫn video
+    output_dir = "./frames"         # Thư mục lưu frame
+    extract_frames_from_video(video_path, output_dir)
