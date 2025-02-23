@@ -1,0 +1,4 @@
+names:
+  0: traffic light
+path: C:\Code\yolo_traffic_light_dataset
+val: .\images\val\
