@@ -1,4 +1,5 @@
 names:
   0: traffic light
-path: C:\Code\yolo_traffic_light_dataset
+path: E:\GitHub\VN-Traffic-Violation-Detection\yolo_traffic_light_dataset
+train: .\images\train\
 val: .\images\val\
